@@ -79,17 +79,20 @@ const category = menu.map(item=> item.category);
 const uniCat = Array.from(new Set(category));
 uniCat.unshift('All')
 
+const popUp = document.querySelector('.pop-up')
+const popUpMenuItem = document.querySelector('.pop-up__menu-item')
+
 window.addEventListener('DOMContentLoaded', function() {
   displayItems(menu);
   displayBttuns();
   filter()
-  }
+}
 );
 
 function displayBttuns() {
   let displayButtons = uniCat.map(item =>
      `<button class="${item} btn" data-id=${item}>
-        ${item}
+     ${item}
      </button>`)
      buttonContainer.innerHTML = displayButtons.join("")
 }
@@ -97,18 +100,19 @@ function displayBttuns() {
 function displayItems(array) {
   let displayItems =  array.map(item =>     
     `<div class="menu-item">
-      <div class = "image-container">
-        <div><img src="${item.img}" alt="${item.title}" class = "image"></div>
-      </div>
-      <div class = "item-bottom">
-        <div class="basic-info">
-          <div class="name"><p>${item.title}</p></div>
-          <div class="price">${item.price}</div>
+        <div class = "image-container">
+          <div><img src="${item.img}" alt="${item.title}" class = "image"></div>
         </div>
-        <div class="description">${item.desc}</div>
-      </div>
-    </div>`)
-   menuItems.innerHTML = displayItems.join("")
+        <div class = "item-bottom">
+          <div class="basic-info">
+            <div class="name"><p>${item.title}</p></div>
+            <div class="price">${item.price}</div>
+          </div>
+          <div class="description">${item.desc}</div>
+        </div>
+      </div>`)
+      menuItems.innerHTML = displayItems.join("")
+   popUpClick()
 }
 
 function filter() {
@@ -128,4 +132,58 @@ function filter() {
       }
     })
   })
+}
+
+function popUpClick() {
+  const productName = document.querySelectorAll('.name')
+  const productNameArr = Array.from(productName)
+  
+  productNameArr.map((e)=>{e.addEventListener('click', ()=> {
+    popUp.classList.add('open')
+    const orderValue = e.parentElement.lastElementChild.innerHTML
+    let displayPopUP = e.parentElement.parentElement.parentElement
+    
+    popUpMenuItem.innerHTML = displayPopUP.innerHTML + 
+    `<div class="pop-up__buy">
+    <div class="pop-up__buy--quantidy">
+    <div class="pop-up__buy--minus">-</div>
+    <label for="quantidy">quantidy:</label>
+    <input type="text" value="1" disabled class="pop-up__buy--total" id = "quantidy">
+    <div class="pop-up__buy--plus">+</div>
+    </div>
+    <a class="pop-up__buy--cartBtn">buy</a>
+    <div class="pop-up--subTotal">
+    <p>total order:</p><span class="subTotal">${orderValue}</span>
+    </div>
+    </div>
+    <div class="close">X</div>
+    `
+    orderQuant(orderValue)
+    const closeBtn = document.querySelector('.close')
+    closeBtn.addEventListener('click', ()=>{popUp.classList.remove('open')})
+  })})
+}
+
+function orderQuant(e) {
+  const minusBtn = document.querySelector('.pop-up__buy--minus')
+  const plusBtn = document.querySelector('.pop-up__buy--plus')
+  const totalBtn = document.querySelector('.pop-up__buy--total')
+  const subTotal = document.querySelector('.subTotal')
+  let total = parseInt(totalBtn.value)
+
+  minusBtn.addEventListener('click',()=>{
+    if(total>1) {
+      totalBtn.value=total-1
+      total=parseInt(totalBtn.value)
+      subTotal.innerHTML = (e*total).toFixed(2)
+    }
+  }
+)
+
+plusBtn.addEventListener('click',()=>{
+  totalBtn.value=total+1
+  total=parseInt(totalBtn.value)
+  subTotal.innerHTML = (e*total).toFixed(2)
+  }
+)
 }

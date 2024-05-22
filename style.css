@@ -23,6 +23,14 @@ main {
     margin-bottom: 4rem;
 }
 
+label {
+    position: absolute;
+    top: -1.5em;
+    font-weight: 400;
+    left: 0;
+    color: var(--golden-color);
+}
+
 .title {
     text-align: center;
     letter-spacing: .2rem;
@@ -105,6 +113,11 @@ main {
     color: var(--name-color);
 }
 
+.name:hover {
+    cursor: pointer;
+    color: hsl(209, 61%, 50%);
+}
+
 .price {
     color: var(--golden-color);
 }
@@ -121,6 +134,161 @@ main {
     color: hsl(210, 22%, 49%);
 }
 
+.pop-up {
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    box-shadow: 0 0 0 100vh rgba(128, 128, 128, .7);
+    width: fit-content;
+    transform: translate(-50%, -50%);
+    border-radius: 5px;
+    height: 0;
+    transition:all .1s;
+    opacity: 0;
+    z-index: -1;
+}
+
+.pop-up .items-container {
+    grid-template-rows: 15rem 15rem;
+}
+
+.pop-up.open {
+    max-height: 8rem;
+    transition:all 1s;
+    opacity: 1;
+    z-index: 0;
+}
+
+.close {
+    font-weight: bold;
+    cursor: pointer;
+    aspect-ratio: 1;
+    position: fixed;
+    top: -1.3em;
+    right: -.2em;
+    transition: .1s;
+    padding: .4em .9em;
+    background-color: whitesmoke;
+    border-radius: 50%;
+    text-align: center;
+}
+
+.close:hover {
+    color: red;
+}
+
+.close::selection {
+    background-color: transparent;
+}
+
+.pop-up__buy {
+    position: relative;
+}
+
+.pop-up .pop-up__item-container {
+    background-color: rgb(221, 208, 208);
+    border-radius: 5px;
+    padding: 1em;
+}
+
+.pop-up__buy {
+    display: flex;
+}
+
+.pop-up__buy--quantidy {
+    display: flex;
+    position: relative;
+    font-weight: bold;
+    justify-content: space-between;
+    padding: 1em .8em;
+    background-color: rgba(119, 145, 151, .3);
+    margin-inline: 1em;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.pop-up__buy--plus,
+.pop-up__buy--minus {
+    color: var(--golden-color);
+    font-size: 1.3rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.pop-up__buy--quantidy:has(.pop-up__buy--plus:hover){
+    background-image: linear-gradient(to left,rgba(119, 145, 151, .5) 0 35% , rgba(119, 145, 151, .2)35% 100%);
+}
+
+.pop-up__buy--quantidy:has(.pop-up__buy--minus:hover) {
+    background-image: linear-gradient(to right,rgba(119, 145, 151, .5) 0 29% , rgba(119, 145, 151, .2)29% 100%);
+}
+
+.pop-up__buy--plus::selection,
+.pop-up__buy--minus::selection {
+    background-color: transparent;
+}
+
+.pop-up__buy--plus:hover,
+.pop-up__buy--minus:hover {
+    color: hsl(37, 70%, 63%);
+}
+
+.pop-up__buy--plus {
+    margin-left: 1.3em;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.pop-up--subTotal {
+    position: absolute;
+    bottom: -3em;
+    left: 1.5em;
+    color: var(--golden-color);
+}
+
+.pop-up--subTotal span {
+    color: white;
+    background-color: rgba(119, 145, 151, .4);
+    padding:.1em 2rem;
+    border-radius: 2px;
+}
+
+.pop-up__buy--total {
+    color: white;
+    font-weight: bold;
+    width: 2rem;
+    padding: .5em .5em;
+    margin-left: 1.8em;
+    border-radius: 3px;
+    border: none;
+    outline: none;
+}
+
+.pop-up__buy--cartBtn {
+    border: none;
+    color: white;
+    background-color: var(--golden-color);
+    font-family: inherit;
+    padding: 1em 1.3em;
+    border-radius: 3px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: .2s;
+}
+
+.pop-up__buy--cartBtn:hover {
+    transform: scale(1.1);
+    box-shadow: 7px 4px 5px 0px rgba(0,0,0,0.15);
+}
+
+.pop-up__buy--cartBtn:active {
+    transform: scale(1);
+    box-shadow: 3px 2px 2px 0px rgba(0,0,0,0.15);
+}
 
 @media (min-width: 575px) {
     section {
@@ -130,6 +298,10 @@ main {
 
     .menu-item {
         flex-direction: row;
+    }
+
+    .pop-up .menu-item {
+        flex-direction: column;
     }
 
     .image {
@@ -146,6 +318,14 @@ main {
         grid-template-columns: 15rem 15rem;
         column-gap: 25rem;
         row-gap: 2rem;
+    }
+
+    .pop-up .menu-item {
+        flex-direction: row;
+    }
+
+    .pop-up .items-container {
+        grid-template-rows: 13rem;
     }
 
     .btn-container {
